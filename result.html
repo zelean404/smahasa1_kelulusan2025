@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hasil Kelulusan</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="result-box">
+    <a href="index.html" class="logout">Logout</a>
+    <div id="result"></div>
+  </div>
+  <script src="data.js"></script>
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      window.location.href = 'index.html';
+    }
+    const siswa = data.find(d => d.nis == user.nis && d.tanggal_lahir == user.tanggal_lahir);
+    if (!siswa) {
+      document.getElementById('result').innerHTML = '<p>Data tidak ditemukan.</p>';
+    } else {
+      document.getElementById('result').innerHTML = `
+        <h2>Selamat</h2>
+        <h3>${siswa.nama}</h3>
+        <p>Tempat, Tanggal Lahir: SURABAYA, ${formatDate(siswa.tanggal_lahir)}</p>
+        <p>NISN: ${siswa.nisn}</p>
+        <p>NIS: ${siswa.nis}</p>
+        <h3 style="color: green;">LULUS</h3>
+        <p>Surat Keterangan Lulus (SKL) dapat diambil pada Selasa, 6 Mei 2025 pukul 10.00 WIB.</p>
+        <p>Dilarang melakukan kegiatan:</p>
+        <ul>
+          <li>Konvoi kendaraan</li>
+          <li>Coret-coret baju</li>
+          <li>Tindakan lain yang mengganggu ketertiban masyarakat</li>
+        </ul>
+      `;
+    }
+    function formatDate(d) {
+      const [y, m, d2] = d.split('-');
+      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      return `${d2} ${bulan[parseInt(m)-1]} ${y}`;
+    }
+  </script>
+</body>
+</html>
